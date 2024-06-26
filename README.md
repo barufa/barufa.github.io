@@ -1,3 +1,3 @@
-# barufa.github.io
+# Barufa
 
-Something
+Some intro.
