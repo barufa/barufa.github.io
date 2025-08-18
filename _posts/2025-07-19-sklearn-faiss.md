@@ -22,7 +22,7 @@ If you’re already using scikit-learn for training, why switch to Faiss for dep
 
 ## PCA refresher ##
 
-PCA (Principal Component Analysis) is a linear dimensionality reduction technique. It projects data into a lower-dimensional space using the eigenvectors of the covariance matrix. You can check [this class](https://youtu.be/dhK8nbtii6I?si=rEa2z5YDaGERLTfy) for a detail exaplanation.
+PCA (Principal Component Analysis) is a linear dimensionality reduction technique. It projects data into a lower-dimensional space using the eigenvectors of the covariance matrix. You can check [this video](https://youtu.be/dhK8nbtii6I?si=rEa2z5YDaGERLTfy) for a detail exaplanation.
 
 ### Sklearn ###
 
@@ -51,7 +51,7 @@ In Faiss, after training a `PCAMatrix`, the transformation looks slightly differ
 
      X_transformed = X @ faiss_pca.A.T + faiss_pca.b
 
-Here, `A` is the components matrix, and `b` is a bias vector (equivalent to applying the mean shift from `sklearn`).
+Here, `A` is the components matrix, and `b` is a bias vector.
 
 ## Migrating from `sklearn.PCA` to `Faiss` ##
 
@@ -62,21 +62,25 @@ To migrate from a trained `sklearn.PCA` model to a `faiss.PCAMatrix`, you need t
 Depending on whether whitening is used:
 
 Without whitening:
-    A = W
-    b = -mean @ A.T   # == -mean @ W.T
+
+    A = skl_pca.components_
+    b = -skl_pca.mean_ @ A.T
 
 With `whiten=True`:
-    A = W / sqrt(λ)[:, None]   # escala cada fila de W
-    b = -mean @ A.T
+
+    # escala cada fila de skl_pca.components_
+    A = skl_pca.components_ / sqrt(skl_pca.explained_variance_)[:, None]
+    b = -skl_pca.mean_ @ A.T
 
 After these definitions we can get:
+
     X @ A.T + b  ==  sklearn.PCA.transform(X)
 
 ### Code ###
 
-First, lets create a small PCA using the  USPS digits datasets.
+Let’s create a small PCA model using the USPS digits dataset:
 
-```
+```python
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
@@ -88,9 +92,9 @@ skl_pca = PCA(n_components=32, random_state=42)
 skl_pca.fit(X_train)
 ```
 
-Great, we have our PCA from sklearn trained. Now, we are going to try to migrate to faiss:
+Now, let's migrate the trained model to Faiss:
 
-```
+```python
 import sklearn
 import faiss
 import numpy as np
@@ -127,17 +131,20 @@ Important: Use Faiss’s `copy_array_to_vector` utility to load arrays into Fais
 
 ### Validation ###
 
-Always validate that the conversion is correct:
+Always validate that the migration preserves results:
 
-```
+```python
 import numpy as np
 import faiss
 import sklearn
 import time
 
 X = np.random.randn(1_000_000, faiss_pca.d_in).astype(np.float32)
+# Check over some random vectors
 np.testing.assert_allclose(skl_pca.transform(X), faiss_pca.apply_py(X), atol=1e-5)
+# Check over train vectors
 np.testing.assert_allclose(skl_pca.transform(X_train), faiss_pca.apply_py(X_train), atol=1e-5)
+# Check over test vectors
 np.testing.assert_allclose(skl_pca.transform(X_test), faiss_pca.apply_py(X_test), atol=1e-5)
 print("OK: sklearn == faiss")
 
@@ -151,7 +158,7 @@ print(f"faiss.apply_py  : {(t3-t2):.3f}s  | {(X.shape[0]/(t3-t2)):.0f} vec/s")
 print(f"Speedup: {((t1-t0)/(t3-t2)):.1f}x")
 ```
 
-Here we can see that a 1.2x speedup was achieve. See the complete code [here]().
+In this example, a 1.2x speedup was achieved. See the complete code [here](https://github.com/barufa/barufa.github.io/blob/main/assets/pca_migration.py).
 
 ## Conclusion ##
 
