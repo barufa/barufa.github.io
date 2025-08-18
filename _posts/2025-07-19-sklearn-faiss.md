@@ -20,7 +20,7 @@ If you’re already using scikit-learn for training, why switch to Faiss for dep
 * Faiss offers faster, more efficient kernels for applying PCA at scale.
 * You can migrate a trained sklearn.PCA to a faiss.PCAMatrix without retraining.
 
-## PCA refresher ##
+## Principal Component Analysis  ##
 
 PCA (Principal Component Analysis) is a linear dimensionality reduction technique. It projects data into a lower-dimensional space using the eigenvectors of the covariance matrix. You can check [this video](https://youtu.be/dhK8nbtii6I?si=rEa2z5YDaGERLTfy) for a detail exaplanation.
 
