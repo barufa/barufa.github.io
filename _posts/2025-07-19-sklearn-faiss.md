@@ -53,7 +53,7 @@ In Faiss, after training a `PCAMatrix`, the transformation looks slightly differ
 
 Here, `A` is the components matrix, and `b` is a bias vector.
 
-## Migrating from `sklearn.PCA` to `Faiss` ##
+## Migrating from `sklearn` to `Faiss` ##
 
 To migrate from a trained `sklearn.PCA` model to a `faiss.PCAMatrix`, you need to extract:
 * `A`: the transformed components matrix 
