@@ -1,3 +1,0 @@
-# Barufa
-
-Some intro.
