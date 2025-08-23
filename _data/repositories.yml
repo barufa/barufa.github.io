@@ -1,0 +1,12 @@
+github_users:
+  - barufa
+
+repo_description_lines_max: 2
+
+github_repos:
+  - barufa/Compiler
+  - barufa/Nachos
+  - barufa/TriviaSolver
+  - barufa/BotTelegram
+  - barufa/GPU-QuickSort
+  - barufa/MiniVm
