@@ -6,8 +6,7 @@ title: StuckInALocalMinima
 first_name: Bruno
 middle_name: A.
 last_name: Bruno Baruffaldi
-contact_note: >
-  💡 The best way to reach me is on **LinkedIn** for professional stuff, or here on **GitHub** if you want to chat about code, bugs, or why my blog is called *StuckInLocalMinima*.
+contact_note: Feel free to reach out for collaborations or just to say hi!
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   I’m Bruno — a CS grad turned **Senior Machine Learning Engineer** who loves building things that run fast, scale well, and sometimes even work on the first try.  Currently into deep learning, edge devices, and squeezing performance out of both code and coffee. ☕🤖
 footer_text: >
@@ -102,7 +101,7 @@ related_blog_posts:
 # Giscus comments (RECOMMENDED)
 # Follow instructions on https://giscus.app/ to setup for your repo to fill out the information below.
 giscus:
-  repo: # <your-github-user-name>/<your-github-repo-name>
+  repo: barufa/barufa.github.io # your GitHub repo for storing comments
   repo_id: # leave empty or specify your repo_id (see https://giscus.app/)
   category: Comments # name of the category under which discussions will be created
   category_id: # leave empty or specify your category_id (see https://giscus.app/)
