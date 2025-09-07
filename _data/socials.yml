@@ -47,7 +47,7 @@ linkedin_username: brunobaruffaldi # your LinkedIn user name
 # x_username: # your X handle
 # youtube_id: # your youtube channel id (youtube.com/@<youtube_id>)
 # zotero_username: # your zotero username
-custom_social: # can be any name here other than the ones already defined above
-  class: "fa-brands fa-reddit" # use FontAwesome icon instead of static image for theme support
-  title: Reddit
-  url: https://www.reddit.com/user/Automatic-Pension-85/
+# custom_social: # can be any name here other than the ones already defined above
+#   class: "fa-brands fa-reddit" # use FontAwesome icon instead of static image for theme support
+#   title: Reddit
+#   url: https://www.reddit.com/user/Automatic-Pension-85/
