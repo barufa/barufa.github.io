@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://barufa.github.io/sitemap.xml
