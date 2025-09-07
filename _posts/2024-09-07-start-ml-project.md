@@ -4,7 +4,7 @@ comments: true
 title: "How to Start a Machine Learning Project Before Starting a Machine Learning Project"
 excerpt: "Ever started a machine learning project, only to realize you were solving the wrong problem? Essential tips to steer your ML projects toward real impact!"
 date: 2024-07-09
-category: "mlops"
+category: 
 tags: machine-learning, mlops
 ---
 
