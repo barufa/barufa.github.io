@@ -8,29 +8,30 @@ category:
 tags: machine-learning, mlops, deployment
 ---
 
-## Why using Faiss ##
+## Why using Faiss
 
 Faiss is a high‑performance library for vector similarity search and related primitives (clustering, compression, linear transforms like PCA). t scales to millions–billions of vectors on CPU and GPU and it is a much faster implementation of PCA. In practice this reduces memory, latency, and Python overhead.
 
-### Why migrate PCA to Faiss? ###
+### Why migrate PCA to Faiss?
 
 If you’re already using scikit-learn for training, why switch to Faiss for deployment?
 
-* Training PCA in sklearn is convenient, but for the deployment implementation is slow.
-* Faiss offers faster, more efficient kernels for applying PCA at scale.
-* You can migrate a trained sklearn.PCA to a faiss.PCAMatrix without retraining.
+- Training PCA in sklearn is convenient, but for the deployment implementation is slow.
+- Faiss offers faster, more efficient kernels for applying PCA at scale.
+- You can migrate a trained sklearn.PCA to a faiss.PCAMatrix without retraining.
 
-## Principal Component Analysis  ##
+## Principal Component Analysis
 
 PCA (Principal Component Analysis) is a linear dimensionality reduction technique. It projects data into a lower-dimensional space using the eigenvectors of the covariance matrix. You can check [this video](https://youtu.be/dhK8nbtii6I?si=rEa2z5YDaGERLTfy) for a detail exaplanation.
 
-### Sklearn ###
+### Sklearn
 
 We’ll focus on the essential operation of PCA: projecting vectors using `transform()`.
 
 Given :
-* X as the input data
-* skl_pca as the trained PCA object from sklearn
+
+- X as the input data
+- skl_pca as the trained PCA object from sklearn
 
 You can project X into the PCA-transformed space like this:
 
@@ -45,7 +46,7 @@ If whitening was applied during PCA fitting, you’ll also need to scale the out
 
 For reference, see the [official implementation](https://github.com/scikit-learn/scikit-learn/blob/c5497b7f7/sklearn/decomposition/_base.py#L116).
 
-### Faiss ###
+### Faiss
 
 In Faiss, after training a `PCAMatrix`, the transformation looks slightly different:
 
@@ -53,11 +54,12 @@ In Faiss, after training a `PCAMatrix`, the transformation looks slightly differ
 
 Here, `A` is the components matrix, and `b` is a bias vector.
 
-## Migrating from `sklearn` to `Faiss` ##
+## Migrating from `sklearn` to `Faiss`
 
 To migrate from a trained `sklearn.PCA` model to a `faiss.PCAMatrix`, you need to extract:
-* `A`: the transformed components matrix
-* `b`: the bias vector to match sklearn’s behavior
+
+- `A`: the transformed components matrix
+- `b`: the bias vector to match sklearn’s behavior
 
 Depending on whether whitening is used:
 
@@ -76,7 +78,7 @@ After these definitions we can get:
 
     X @ A.T + b  ==  sklearn.PCA.transform(X)
 
-### Code ###
+### Code
 
 Let’s create a small PCA model using the USPS digits dataset:
 
@@ -129,7 +131,7 @@ faiss_pca = sklearn_pca_to_faiss(skl_pca)
 
 Important: Use Faiss’s `copy_array_to_vector` utility to load arrays into Faiss structures. See [this file](https://github.com/facebookresearch/faiss/blob/514b44fca8542bafe8640adcbf1cccce1900f74c/faiss/python/array_conversions.py#L128) for implementation details.
 
-### Validation ###
+### Validation
 
 Always validate that the migration preserves results:
 
@@ -160,7 +162,7 @@ print(f"Speedup: {((t1-t0)/(t3-t2)):.1f}x")
 
 In this example, a 1.2x speedup was achieved. See the complete code [here](https://github.com/barufa/barufa.github.io/blob/main/assets/pca_migration.py).
 
-## Conclusion ##
+## Conclusion
 
 Migrating from `scikit-learn` to `Faiss` for PCA application is a straightforward optimization with real-world impact. You can keep sklearn for training and validation, then deploy the exact same projection using Faiss—boosting inference performance without retraining.
 

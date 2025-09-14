@@ -29,9 +29,10 @@ I’m a **Senior Machine Learning Engineer** and **software developer**, passion
 
 I was the first engineer at [DeepAgro](https://deepagro.com), a startup where I helped design AI systems for **selective herbicide spraying**. My work ranged from **embedded real-time inference** on Nvidia Jetson devices to **cloud-based large-scale model serving**. Along the way, I mentored engineers, researched new ML architectures, and wrote about some of the process.
 
-This blog — *StuckInLocalMinima* — is where I share things I learn, experiments that didn’t blow up (too badly), and random thoughts on **machine learning projects and code**.
+This blog — _StuckInLocalMinima_ — is where I share things I learn, experiments that didn’t blow up (too badly), and random thoughts on **machine learning projects and code**.
 
 ⚡ **Fun facts**
+
 - I once built a trivia solver that could answer HQTrivia questions in real time with 86% accuracy (before LLMs existence).
 - I enjoy working on parallel algorithms and HPC challenges.
 - The blog name comes from a personal truth: sometimes I’m not stuck in life… just in a local minima.
