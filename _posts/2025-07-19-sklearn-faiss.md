@@ -4,7 +4,7 @@ comments: true
 title: "From scikit-learn to Faiss: Migrating PCA for Scalable Vector Search"
 excerpt: "Keep sklearn for training and validation, while leveraging Faiss for high-performance production inference."
 date: 2025-07-19
-category: 
+category:
 tags: machine-learning, mlops, deployment
 ---
 
@@ -56,7 +56,7 @@ Here, `A` is the components matrix, and `b` is a bias vector.
 ## Migrating from `sklearn` to `Faiss` ##
 
 To migrate from a trained `sklearn.PCA` model to a `faiss.PCAMatrix`, you need to extract:
-* `A`: the transformed components matrix 
+* `A`: the transformed components matrix
 * `b`: the bias vector to match sklearn’s behavior
 
 Depending on whether whitening is used:

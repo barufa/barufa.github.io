@@ -4,7 +4,7 @@ comments: true
 title: "How to Start a Machine Learning Project Before Starting a Machine Learning Project"
 excerpt: "Ever started a machine learning project, only to realize you were solving the wrong problem? Essential tips to steer your ML projects toward real impact!"
 date: 2024-07-09
-category: 
+category:
 tags: machine-learning, mlops
 ---
 
@@ -43,4 +43,3 @@ ML projects often need a discovery phase to assess feasibility. Lasting several 
 ## Conclusion ##
 
 Crafting effective ML systems demands a disciplined approach that circumvents common pitfalls. By leveraging these questions and adhering to fundamental principles, we navigate the intricate landscape of ML development and deliver solutions that have a meaningful impact. Remember, MLOps isn't just about deploying models that ace test sets; it's about building systems that operate reliably in the real world, delivering tangible value to users and organizations.
-

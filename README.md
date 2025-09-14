@@ -1,6 +1,6 @@
 # StuckInLocalMinima
 
-**A personal blog by Bruno Baruffaldi**  
+**A personal blog by Bruno Baruffaldi**
 Senior Machine Learning Engineer | Deep Learning, Computer Vision & High-Performance software.
 
 This repository hosts my personal website and blog, built with [Jekyll](https://jekyllrb.com/) and the [al-folio](https://github.com/alshedivat/al-folio) theme.
@@ -23,7 +23,7 @@ This repository hosts my personal website and blog, built with [Jekyll](https://
 
 ### 1. Open in DevContainer
 
-This project includes a VS Code DevContainer.  
+This project includes a VS Code DevContainer.
 Open the command palette (`Ctrl+Shift+P`) and select **Remote-Containers: Reopen in Container**.
 
 ### 2. Install Dependencies
