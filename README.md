@@ -44,18 +44,6 @@ Your site will be available at http://localhost:4000 with live reloading.
 
 ---
 
-## 📄 About the Author
-
-**Bruno Baruffaldi** 👋  
-Senior Machine Learning Engineer and software developer.  
-Experience in embedded real-time inference (Nvidia Jetson), cloud-scale model serving, and high-performance optimization.  
-First engineer at [DeepAgro](https://deepagro.com), building AI systems for targeted herbicide spraying.
-
-**About the Blog**  
-“StuckInLocalMinima” is where I share lessons learned, experiments that (mostly) succeeded, and thoughts on ML projects and code.
-
----
-
 ## 📜 License
 
 This project is licensed under the terms described in [`LICENSE`](LICENSE).
