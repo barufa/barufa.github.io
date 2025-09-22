@@ -160,7 +160,9 @@ print(f"faiss.apply_py  : {(t3-t2):.3f}s  | {(X.shape[0]/(t3-t2)):.0f} vec/s")
 print(f"Speedup: {((t1-t0)/(t3-t2)):.1f}x")
 ```
 
-In this example, a 1.2x speedup was achieved. See the complete code [here](https://github.com/barufa/barufa.github.io/blob/main/assets/pca_migration.py).
+See the complete code [here](https://github.com/barufa/barufa.github.io/blob/main/assets/python/pca_migration.py).
+
+Benchmarking on an [Asus Zenbook 14](<(https://www.asus.com/us/laptops/for-home/zenbook/zenbook-14-q407/techspec/)) showed throughput rising from 803,290 vec/s to 1,418,897 vec/s — roughly a 1.77× improvement.
 
 ## Conclusion
 
