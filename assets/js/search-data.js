@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-from-scikit-learn-to-faiss-migrating-pca-for-scalable-vector-search",
+        },{id: "post-amazon-s3-vectors-what-it-is-where-it-fits-and-the-gotchas-nobody-tells-you",
+        
+          title: "Amazon S3 Vectors: What It Is, Where It Fits, and the Gotchas Nobody...",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/s3-vectors/";
+          
+        },
+      },{id: "post-from-scikit-learn-to-faiss-migrating-pca-for-scalable-vector-search",
         
           title: "From scikit-learn to Faiss: Migrating PCA for Scalable Vector Search",
         
