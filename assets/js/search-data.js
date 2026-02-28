@@ -30,14 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "nav-cv",
-          title: "CV",
-          description: "Curriculum Vitae",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/cv/";
-          },
-        },{id: "post-amazon-s3-vectors-what-it-is-where-it-fits-and-the-gotchas-nobody-tells-you",
+        },{id: "post-training-with-sklearn-deploying-with-the-right-runtime",
+        
+          title: "Training with sklearn, Deploying with the Right Runtime",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/tree-compiler/";
+          
+        },
+      },{id: "post-amazon-s3-vectors-what-it-is-where-it-fits-and-the-gotchas-nobody-tells-you",
         
           title: "Amazon S3 Vectors: What It Is, Where It Fits, and the Gotchas Nobody...",
         
