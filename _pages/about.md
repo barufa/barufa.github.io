@@ -25,7 +25,7 @@ latest_posts:
 
 Hi, I’m **Bruno Baruffaldi** 👋
 
-I’m a **Senior Machine Learning Engineer** and **software developer**, passionate about building systems that actually scale — whether it’s in the cloud ☁️, on the edge 🚜, or somewhere in between. With a background in **Computer Science**, I’ve spent the past years working at the intersection of **deep learning, computer vision, and high-performance software engineering**.
+I’m a **Solution Architect** and **Senior Machine Learning Engineer**, passionate about building systems that actually scale — whether it’s in the cloud ☁️, on the edge 🚜, or somewhere in between. With a background in **Computer Science**, I’ve spent the past years working at the intersection of **deep learning, computer vision, and high-performance software engineering**.
 
 I was the first engineer at [DeepAgro](https://deepagro.com), a startup where I helped design AI systems for **selective herbicide spraying**. My work ranged from **embedded real-time inference** on Nvidia Jetson devices to **cloud-based large-scale model serving**. Along the way, I mentored engineers, researched new ML architectures, and wrote about some of the process.
 
