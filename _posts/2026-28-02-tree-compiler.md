@@ -166,7 +166,7 @@ Reducing cold starts from 2.05 seconds to 78 milliseconds changes how scaling be
 Memory configuration also directly affects cost. AWS Lambda requires a minimum of 128MB, but higher memory tiers increase both price and allocated CPU share. A function that peaks at 21MB gives you confidence that 128MB is more than sufficient, whereas a function peaking near 200MB forces you into higher memory tiers for safety.
 
 <div style="text-align: center;">
-  <img src="https://github.com/barufa/barufa.github.io/blob/main/assets/img/treecompiler_benchmark.svg" alt="Benchmark" />
+  <img src="https://raw.githubusercontent.com/barufa/barufa.github.io/refs/heads/main/assets/img/treecompiler_benchmark.svg" alt="Benchmark" />
 </div>
 
 If you process millions of requests per day, a 12x reduction in median latency translates into dramatically lower billed compute time. An 83% reduction in memory usage reduces the need to overprovision memory for safety margins.
