@@ -71,12 +71,12 @@ bash bin/entry_point.sh
 
 ## 🚀 CI/CD Workflows
 
-| Workflow | Trigger | Description |
-|---|---|---|
-| `prettier.yml` | push/PR to main | Checks code formatting with Prettier |
-| `deploy.yml` | push to main | Builds and deploys the site to GitHub Pages |
-| `broken-links.yml` | scheduled | Checks for broken links in source files |
-| `axe.yml` | scheduled | Accessibility checks on the deployed site |
+| Workflow           | Trigger         | Description                                 |
+| ------------------ | --------------- | ------------------------------------------- |
+| `prettier.yml`     | push/PR to main | Checks code formatting with Prettier        |
+| `deploy.yml`       | push to main    | Builds and deploys the site to GitHub Pages |
+| `broken-links.yml` | scheduled       | Checks for broken links in source files     |
+| `axe.yml`          | scheduled       | Accessibility checks on the deployed site   |
 
 ---
 
