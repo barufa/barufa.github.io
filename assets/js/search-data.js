@@ -30,9 +30,9 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-training-with-sklearn-deploying-with-the-right-runtime",
+        },{id: "post-training-with-scikit-learn-deploying-with-the-right-runtime",
         
-          title: "Training with sklearn, Deploying with the Right Runtime",
+          title: "Training with scikit-learn, Deploying with the Right Runtime",
         
         description: "",
         section: "Posts",
