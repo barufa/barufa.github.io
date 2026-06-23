@@ -1,14 +1,14 @@
 ---
 layout: post
 comments: true
-title: "Training with sklearn, Deploying with the Right Runtime"
+title: "Training with scikit-learn, Deploying with the Right Runtime"
 excerpt: "Use frameworks to learn. Use lean runtimes to serve."
 date: 2026-02-28
 category:
 tags: machine-learning, mlops, deployment
 ---
 
-## Compiling sklearn Trees to Source Code: Deploying ML with the Right Runtime
+## Compiling scikit-learn Trees to Source Code: Deploying ML with the Right Runtime
 
 Deploying a machine learning model is not the same problem as training it.
 
@@ -16,7 +16,7 @@ Training environments are built for flexibility. They optimize for experimentati
 
 In this post I use decision trees and random forests as a controlled simplification of a broader issue: how we deploy ML models in production. Trees are useful here precisely because their inference logic is easy to reason about. They let us isolate the systems problem without hiding behind heavy linear algebra or GPU acceleration. The point is not that trees are special. The point is that deployment deserves its own engineering decisions.
 
-TreeCompiler is a small proof of concept built around that idea. It compiles scikit-learn DecisionTreeClassifier and RandomForestClassifier models into standalone Python or Go source code. No sklearn. No numpy. No scientific stack at inference time.
+TreeCompiler is a small proof of concept built around that idea. It compiles scikit-learn DecisionTreeClassifier and RandomForestClassifier models into standalone Python or Go source code. No scikit-learn. No numpy. No scientific stack at inference time.
 
 The goal is not to replace frameworks. The goal is to make explicit a systems principle: inference deserves its own runtime.
 
@@ -38,17 +38,9 @@ The important part for this discussion is this: inference is just branching logi
 
 ## Training Runtime vs Inference Runtime
 
-When we talk about inference cost, we usually think about compute: CPU cycles per forward pass, vectorized math, numerical throughput.
+When we talk about inference cost, we usually think about raw compute: CPU cycles per forward pass, vectorized math, and numerical throughput. For tree-based models, however, the computation itself is small. A decision tree prediction is mostly a sequence of comparisons, and a random forest repeats that process across multiple trees before averaging the results. That means the largest cost often comes from the machinery around the model rather than from the model logic itself: importing large numerical libraries, deserializing pickled objects, allocating arrays, shipping container images with hundreds of megabytes of dependencies, and managing compatibility across Python versions and architectures.
 
-For tree-based models, the raw computation is trivial. A decision tree inference is a sequence of comparisons. A random forest repeats that process multiple times and averages results.
-
-The expensive part is everything around that computation.
-
-Importing large numerical libraries. Deserializing pickled objects. Allocating numpy arrays. Shipping container images with hundreds of megabytes of dependencies. Managing environment compatibility across Python versions and architectures.
-
-Training environments are optimized for experimentation. Inference environments are optimized for stability, latency, and cost. Treating them as the same thing is convenient, but rarely optimal.
-
-TreeCompiler explores what happens when we separate those concerns.
+Those costs make sense in a training environment, where flexibility, experimentation, and rich APIs matter. They make much less sense in an inference environment, where the model has already been trained and the runtime only needs to execute a fixed set of operations. TreeCompiler explores what happens when we separate those concerns. By turning the learned tree structure into explicit source code, inference no longer depends on a general-purpose ML framework to load and execute a serialized artifact. The deployed program contains only the branching logic required for prediction, which reduces startup work, dependency loading, object allocation, and packaging overhead. In compiled targets, it also gives the compiler a simpler program to optimize: deterministic control flow, constant thresholds, direct comparisons, and small functions instead of a dynamic model object interpreted through a training framework.
 
 ---
 
@@ -71,17 +63,7 @@ def predict_proba(x):
             return [0.0, 0.02, 0.98]
 ```
 
-No imports. No runtime dependencies. Just comparisons.
-
-For a random forest, the compiler generates one function per tree and performs soft voting by averaging predicted probabilities.
-
-Once inference becomes explicit source code, two structural changes happen.
-
-First, sklearn is no longer required at runtime.
-
-Second, the model stops being a serialized artifact and becomes part of the executable.
-
-That shift directly impacts latency, memory usage, packaging, and deployment complexity.
+The generated code has no imports and no runtime dependencies, only comparisons and simple arithmetic. For a random forest, TreeCompiler generates one function per tree and performs soft voting by averaging the predicted probabilities. Once inference is represented as explicit source code, the deployment shape changes: scikit-learn is no longer required at runtime, and the model is no longer a serialized artifact loaded by an external framework, but part of the executable itself. That shift directly affects latency, memory usage, packaging, and deployment complexity.
 
 ---
 
@@ -95,11 +77,11 @@ Each function was configured with 128MB of memory, which is the minimum allocati
 
 Deployment strategies:
 
-1. sklearn inside a Docker image.
-2. Compiled Python (generated source, standard Python runtime).
+1. scikit-learn inside a Docker image.
+2. Python code (generated source, standard Python runtime).
 3. Compiled Go (generated source compiled into a static binary).
 
-Python is an interpreted language. At runtime, the interpreter loads modules dynamically and executes bytecode. Go is a compiled language. The source is compiled ahead of time into a static binary that runs directly on the operating system without an interpreter.
+Python and Go expose two different optimization surfaces. In Python, the generated tree code is still executed by an interpreter, so the runtime sees the model as bytecode to evaluate step by step. In Go, the generated source is compiled ahead of time into native machine code. That gives the compiler a chance to apply optimizations before the function ever runs: lowering comparisons and arithmetic into direct CPU instructions, choosing efficient register and stack layouts.
 
 Once inference is reduced to pure branching logic, the runtime itself becomes the dominant factor.
 
@@ -107,32 +89,17 @@ Once inference is reduced to pure branching logic, the runtime itself becomes th
 
 ## Python vs Compiled Python (Same Language, Different Runtime Shape)
 
-| Metric    | sklearn (Docker) | Python Compiled |
+| Metric    | scikit-learn (Docker) | Python Compiled |
 | --------- | ---------------- | --------------- |
 | Cold init | 2.05s            | 450.8ms         |
 | Warm p50  | 22.4ms           | 1.8ms           |
 | Warm p95  | 30.5ms           | 15.7ms          |
 | Memory    | 201 MB           | 127 MB          |
 
-Cold init measures how long the execution environment takes to initialize before handling the first request.
 
-Warm p50 is the median latency once the environment is already initialized.
+Cold init measures the time required to initialize the execution environment before the first request. Warm p50 and warm p95 measure latency after the environment is already running: p50 captures the median request, while p95 captures tail latency near the slowest 5% of requests. Memory is the peak memory consumption observed during execution. Under those definitions, compiled Python changes the shape of the service even though the model is the same: cold initialization drops from 2.05 seconds to 450.8 milliseconds, roughly **4.5x faster**, or about a 78% reduction in startup time. Warm p50 falls from 22.4ms to 1.8ms, **over 12x faster**, roughly a 92% reduction in median latency. Warm p95 drops from 30.5ms to 15.7ms, almost **2x faster** at the tail. Memory decreases from 201MB to 127MB, a **37% reduction**.
 
-Warm p95 captures tail latency, reflecting the slowest 5% of requests.
-
-Memory is the peak memory consumption during execution.
-
-Now the meaningful comparisons.
-
-Cold initialization drops from 2.05 seconds to 450.8 milliseconds. That is roughly **4.5x faster**, or about a 78% reduction in startup time.
-
-Warm p50 latency drops from 22.4ms to 1.8ms. That is **over 12x faster**, roughly a 92% reduction in median latency.
-
-Warm p95 drops from 30.5ms to 15.7ms, almost **2x faster** at the tail.
-
-Memory decreases from 201MB to 127MB, a **37% reduction**.
-
-Nothing about the model changed. Only the runtime environment did. Even within Python, removing the training stack from the inference path produces structural gains.
+Those improvements do not come from changing the forest, the features, or the prediction rule. They come from changing what has to exist at inference time. The generated Python function still runs on the Python interpreter, but it no longer needs to import and initialize scikit-learn, load a pickled object graph, allocate NumPy structures, or carry a full scientific stack just to execute a sequence of branches. Even within the same language, replacing a framework-driven runtime with explicit prediction code produces structural gains in startup time, latency, and memory usage.
 
 ---
 
@@ -145,31 +112,37 @@ Nothing about the model changed. Only the runtime environment did. Even within P
 | Warm p95  | 15.7ms          | 11.5ms      |
 | Memory    | 127 MB          | 21 MB       |
 
-Cold initialization drops from 450.8ms to 78.3ms. That is roughly **5.7x faster**, an 83% reduction.
 
-Warm p50 improves from 1.8ms to 1.1ms, about **1.6x faster**. The improvement is smaller because both implementations already execute minimal logic.
+Moving from pure Python to compiled Go pushes the same generated model into a different execution model. Cold initialization drops from 450.8ms to 78.3ms, roughly **5.7x faster**, or an 83% reduction. Warm p50 improves from 1.8ms to 1.1ms, about **1.6x faster**, while warm p95 drops from 15.7ms to 11.5ms, improving tail latency by roughly **27%**. Memory falls from 127MB to 21MB, an **83% reduction**, or about **6x smaller**. The warm latency gains are smaller than the scikit-learn to compiled Python jump because both versions already execute minimal prediction logic. The remaining difference comes from the runtime around that logic.
 
-Warm p95 drops from 15.7ms to 11.5ms, improving tail latency by roughly **27%**.
-
-Memory drops from 127MB to 21MB, an **83% reduction**, or about **6x smaller**.
-
-The difference here is architectural. Python carries interpreter overhead even when executing simple branching code. Go compiles ahead of time into a static binary with minimal runtime initialization.
+In the Python version, the generated code is explicit, but it still runs through the Python interpreter and Python object model. In the Go version, the same tree structure is compiled ahead of time into a static binary, so the executable can start with much less runtime machinery and the compiler can lower the generated comparisons, constants, and function calls into native code. For a workload made almost entirely of deterministic branches and simple arithmetic, that matters: there is little numerical work left to optimize, so startup cost, memory footprint, and runtime dispatch become the dominant factors.
 
 ---
 
 ## Translating This Into Economic Impact
 
-In serverless systems, cost is determined primarily by execution time and configured memory.
+In serverless systems, latency and cost are tied to the same underlying factors: how long the function runs, how much memory is allocated, and how much work has to happen before the first request can be served. AWS Lambda charges per request and per GB-second, so reducing execution time matters, but the configured memory size matters just as much. This is why peak memory is not only an operational metric, but also a cost signal. A function that peaks around 21MB can safely fit inside the 128MB minimum allocation. A function that peaks near 201MB would normally need at least a 256MB allocation to leave a safe margin.
 
-Reducing cold starts from 2.05 seconds to 78 milliseconds changes how scaling behaves under bursty traffic. Those seconds accumulate during scaling events.
+The cost impact becomes clearer if we turn the benchmark into a concrete traffic scenario. Assume 100 million invocations per month on x86 Lambda, excluding the free tier and excluding surrounding services such as API Gateway, CloudWatch Logs, storage, and networking. The request charge is the same for all implementations, so the interesting part is the duration cost. For the estimate below, the scikit-learn Docker version is modeled at 256MB because of its observed memory usage, while compiled Python and compiled Go are modeled at 128MB. Average billed duration is approximated as:
 
-Memory configuration also directly affects cost. AWS Lambda requires a minimum of 128MB, but higher memory tiers increase both price and allocated CPU share. A function that peaks at 21MB gives you confidence that 128MB is more than sufficient, whereas a function peaking near 200MB forces you into higher memory tiers for safety.
+```text
+warm p50 latency + cold start rate × cold init time
+```
+
+| Cold start rate | scikit-learn Docker | Compiled Python | Compiled Go  | Go vs scikit-learn |
+| --------------- | -------------- | --------------- | ------------ | ------------- |
+| 0%              | $29.33/month   | $20.38/month    | $20.23/month | 31% lower     |
+| 1%              | $37.88/month   | $21.31/month    | $20.39/month | 46% lower     |
+| 10%             | $114.75/month  | $29.77/month    | $21.86/month | 81% lower     |
+
+
+This table also shows why a latency chart alone does not fully explain the deployment impact. In the warm-dominated case, request charges become the floor, so the total bill cannot fall by 12x even though median latency does. The compute component does fall almost that much: in the 1% cold-start scenario, moving from scikit-learn Docker to compiled Go reduces duration cost from $17.88/month to $0.39/month, a roughly 98% reduction. Under burstier traffic, the difference is larger because cold initialization becomes part of the cost profile. Reducing cold starts from 2.05 seconds to 78.3 milliseconds changes both user-visible latency and billed initialization work.
 
 <div style="text-align: center;">
-  <img src="https://raw.githubusercontent.com/barufa/barufa.github.io/refs/heads/main/assets/img/treecompiler_benchmark.svg" alt="Benchmark" />
+  <img src="https://raw.githubusercontent.com/barufa/barufa.github.io/refs/heads/main/assets/img/treecompiler_benchmark.png" alt="Benchmark" />
 </div>
 
-If you process millions of requests per day, a 12x reduction in median latency translates into dramatically lower billed compute time. An 83% reduction in memory usage reduces the need to overprovision memory for safety margins.
+The broader point is not that every tree model will save exactly this amount. The point is that deployment shape changes the cost equation. Removing the training stack from the inference path reduces package size, initialization work, runtime memory pressure, and execution overhead. For low-volume workloads, the dollar difference may be small because the request charge and free tier dominate. For high-volume or bursty workloads, the same structural changes can translate into meaningful reductions in billed compute and a lower need to overprovision memory.
 
 ---
 
