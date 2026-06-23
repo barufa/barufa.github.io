@@ -27,7 +27,7 @@ The goal is not to replace frameworks. The goal is to make explicit a systems pr
 A decision tree recursively partitions the feature space using axis-aligned splits. At each internal node, a single feature and threshold are chosen to reduce impurity (for example using Gini or entropy). Inference is simply walking the tree from root to leaf by evaluating comparisons like `x[j] <= threshold`. A random forest is an ensemble of such trees trained on bootstrapped samples and random feature subsets. At inference time, each tree produces a prediction (or probability vector), and the forest aggregates them, typically by averaging probabilities (soft voting).
 
 <div style="text-align: center;">
-  <img src="https://miro.medium.com/v2/1*i0o8mjFfCn-uD79-F1Cqkw.png" alt="Decision tree and random forest diagram" />
+  <img src="https://miro.medium.com/v2/1*i0o8mjFfCn-uD79-F1Cqkw.png" alt="Decision tree and random forest diagram" style="max-width: 100%; height: auto;" />
 </div>
 
 If you want a deeper refresher, the scikit-learn documentation provides a clear overview of the algorithmic details: [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html)
@@ -139,7 +139,7 @@ warm p50 latency + cold start rate × cold init time
 This table also shows why a latency chart alone does not fully explain the deployment impact. In the warm-dominated case, request charges become the floor, so the total bill cannot fall by 12x even though median latency does. The compute component does fall almost that much: in the 1% cold-start scenario, moving from scikit-learn Docker to compiled Go reduces duration cost from $17.88/month to $0.39/month, a roughly 98% reduction. Under burstier traffic, the difference is larger because cold initialization becomes part of the cost profile. Reducing cold starts from 2.05 seconds to 78.3 milliseconds changes both user-visible latency and billed initialization work.
 
 <div style="text-align: center;">
-  <img src="https://raw.githubusercontent.com/barufa/barufa.github.io/refs/heads/main/assets/img/treecompiler_benchmark.png" alt="Benchmark" />
+  <img src="https://raw.githubusercontent.com/barufa/barufa.github.io/refs/heads/main/assets/img/treecompiler_benchmark.png" alt="Benchmark" style="max-width: 100%; height: auto;" />
 </div>
 
 The broader point is not that every tree model will save exactly this amount. The point is that deployment shape changes the cost equation. Removing the training stack from the inference path reduces package size, initialization work, runtime memory pressure, and execution overhead. For low-volume workloads, the dollar difference may be small because the request charge and free tier dominate. For high-volume or bursty workloads, the same structural changes can translate into meaningful reductions in billed compute and a lower need to overprovision memory.
