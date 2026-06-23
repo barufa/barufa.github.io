@@ -162,7 +162,7 @@ print(f"Speedup: {((t1-t0)/(t3-t2)):.1f}x")
 
 See the complete code [here](https://github.com/barufa/barufa.github.io/blob/main/assets/python/pca_migration.py).
 
-Benchmarking on an [Asus Zenbook 14](<(https://www.asus.com/us/laptops/for-home/zenbook/zenbook-14-q407/techspec/)) showed throughput rising from 803,290 vec/s to 1,418,897 vec/s — roughly a 1.77× improvement.
+Benchmarking on an [Asus Zenbook 14](https://www.asus.com/us/laptops/for-home/zenbook/zenbook-14-q407/techspec/) showed throughput rising from 803,290 vec/s to 1,418,897 vec/s — roughly a 1.77× improvement.
 
 ## Conclusion
 

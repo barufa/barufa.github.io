@@ -90,12 +90,11 @@ Once inference is reduced to pure branching logic, the runtime itself becomes th
 ## Python vs Compiled Python (Same Language, Different Runtime Shape)
 
 | Metric    | scikit-learn (Docker) | Python Compiled |
-| --------- | ---------------- | --------------- |
-| Cold init | 2.05s            | 450.8ms         |
-| Warm p50  | 22.4ms           | 1.8ms           |
-| Warm p95  | 30.5ms           | 15.7ms          |
-| Memory    | 201 MB           | 127 MB          |
-
+| --------- | --------------------- | --------------- |
+| Cold init | 2.05s                 | 450.8ms         |
+| Warm p50  | 22.4ms                | 1.8ms           |
+| Warm p95  | 30.5ms                | 15.7ms          |
+| Memory    | 201 MB                | 127 MB          |
 
 Cold init measures the time required to initialize the execution environment before the first request. Warm p50 and warm p95 measure latency after the environment is already running: p50 captures the median request, while p95 captures tail latency near the slowest 5% of requests. Memory is the peak memory consumption observed during execution. Under those definitions, compiled Python changes the shape of the service even though the model is the same: cold initialization drops from 2.05 seconds to 450.8 milliseconds, roughly **4.5x faster**, or about a 78% reduction in startup time. Warm p50 falls from 22.4ms to 1.8ms, **over 12x faster**, roughly a 92% reduction in median latency. Warm p95 drops from 30.5ms to 15.7ms, almost **2x faster** at the tail. Memory decreases from 201MB to 127MB, a **37% reduction**.
 
@@ -111,7 +110,6 @@ Those improvements do not come from changing the forest, the features, or the pr
 | Warm p50  | 1.8ms           | 1.1ms       |
 | Warm p95  | 15.7ms          | 11.5ms      |
 | Memory    | 127 MB          | 21 MB       |
-
 
 Moving from pure Python to compiled Go pushes the same generated model into a different execution model. Cold initialization drops from 450.8ms to 78.3ms, roughly **5.7x faster**, or an 83% reduction. Warm p50 improves from 1.8ms to 1.1ms, about **1.6x faster**, while warm p95 drops from 15.7ms to 11.5ms, improving tail latency by roughly **27%**. Memory falls from 127MB to 21MB, an **83% reduction**, or about **6x smaller**. The warm latency gains are smaller than the scikit-learn to compiled Python jump because both versions already execute minimal prediction logic. The remaining difference comes from the runtime around that logic.
 
@@ -130,11 +128,10 @@ warm p50 latency + cold start rate × cold init time
 ```
 
 | Cold start rate | scikit-learn Docker | Compiled Python | Compiled Go  | Go vs scikit-learn |
-| --------------- | -------------- | --------------- | ------------ | ------------- |
-| 0%              | $29.33/month   | $20.38/month    | $20.23/month | 31% lower     |
-| 1%              | $37.88/month   | $21.31/month    | $20.39/month | 46% lower     |
-| 10%             | $114.75/month  | $29.77/month    | $21.86/month | 81% lower     |
-
+| --------------- | ------------------- | --------------- | ------------ | ------------------ |
+| 0%              | $29.33/month        | $20.38/month    | $20.23/month | 31% lower          |
+| 1%              | $37.88/month        | $21.31/month    | $20.39/month | 46% lower          |
+| 10%             | $114.75/month       | $29.77/month    | $21.86/month | 81% lower          |
 
 This table also shows why a latency chart alone does not fully explain the deployment impact. In the warm-dominated case, request charges become the floor, so the total bill cannot fall by 12x even though median latency does. The compute component does fall almost that much: in the 1% cold-start scenario, moving from scikit-learn Docker to compiled Go reduces duration cost from $17.88/month to $0.39/month, a roughly 98% reduction. Under burstier traffic, the difference is larger because cold initialization becomes part of the cost profile. Reducing cold starts from 2.05 seconds to 78.3 milliseconds changes both user-visible latency and billed initialization work.
 
