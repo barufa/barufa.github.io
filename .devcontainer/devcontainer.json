@@ -4,27 +4,36 @@
   "name": "Jekyll",
   "image": "mcr.microsoft.com/devcontainers/jekyll",
 
-  // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {
-  //   "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
-  //     "packages": "build-essential,imagemagick,inotify-tools,jupyter-nbconvert,procps,ruby-full,zlib1g-dev"
-  //   },
-  //   "ghcr.io/devcontainers-extra/features/prettier:1": {}
-  // },
+  // Install sox so Claude Code's /voice command can record audio.
+  "features": {
+    "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+      "packages": "sox"
+    }
+  },
 
-  "postAttachCommand": "curl -fsSL https://claude.ai/install.sh | bash",
+  // Pass the host's audio device through to the container so /voice (SoX) can record.
+  "runArgs": ["--device=/dev/snd", "--group-add=audio"],
 
-  // "customizations": {
-  //   "vscode": {
-  //     "extensions": ["esbenp.prettier-vscode", "sissel.shopify-liquid", "yzhang.markdown-all-in-one"],
-  //     "settings": {
-  //       // use prettier code formatter as default formatter
-  //       "editor.defaultFormatter": "esbenp.prettier-vscode",
-  //       "prettier.configPath": ".prettierrc",
-  //       "editor.formatOnSave": true
-  //     }
-  //   }
-  // },
+  // Install gems into a project-local vendor/ path (like CI's setup-ruby bundler-cache)
+  // instead of RVM's shared default gemset. Avoids the prism native-extension reinstall
+  // failure (Errno::ENOTEMPTY) when bundler can't overwrite the pre-baked default gems.
+  "containerEnv": {
+    "BUNDLE_PATH": "vendor/bundle"
+  },
+
+  "postCreateCommand": "curl -fsSL https://claude.ai/install.sh | bash",
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["esbenp.prettier-vscode", "sissel.shopify-liquid", "yzhang.markdown-all-in-one"],
+      "settings": {
+        // use prettier code formatter as default formatter
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "prettier.configPath": ".prettierrc",
+        "editor.formatOnSave": true
+      }
+    }
+  },
 
   "remoteUser": "vscode"
 }
