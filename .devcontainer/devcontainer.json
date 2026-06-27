@@ -21,7 +21,17 @@
     "BUNDLE_PATH": "vendor/bundle"
   },
 
+  // Inherit the host machine's timezone so `date` (and the Claude Code status line)
+  // shows local time wherever the container is built. Binds the host's clock config
+  // read-only; on Linux hosts/Codespaces this gives the exact host zone without
+  // depending on any env var. Degrades to UTC on hosts that don't expose it.
+  "mounts": ["source=/etc/localtime,target=/etc/localtime,type=bind,readonly"],
+
   "postCreateCommand": "curl -fsSL https://claude.ai/install.sh | bash",
+
+  // The base image bakes TZ="Etc/UTC" into /etc/environment, which overrides the
+  // bind-mounted /etc/localtime. Drop it on each start so the host's timezone governs.
+  "postStartCommand": "sudo sed -i '/^TZ=/d' /etc/environment",
 
   "customizations": {
     "vscode": {
