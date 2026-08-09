@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-training-with-scikit-learn-deploying-with-the-right-runtime",
+        },{id: "post-caveman-saves-tokens-by-doing-less-not-just-saying-less",
+        
+          title: "Caveman Saves Tokens by Doing Less, Not Just Saying Less",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/caveman/";
+          
+        },
+      },{id: "post-training-with-scikit-learn-deploying-with-the-right-runtime",
         
           title: "Training with scikit-learn, Deploying with the Right Runtime",
         
