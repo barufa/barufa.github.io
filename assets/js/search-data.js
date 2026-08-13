@@ -23,13 +23,6 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/publications/";
           },
-        },{id: "nav-repositories",
-          title: "Repositories",
-          description: "",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/repositories/";
-          },
         },{id: "post-caveman-saves-tokens-by-doing-less-not-just-saying-less",
         
           title: "Caveman Saves Tokens by Doing Less, Not Just Saying Less",
