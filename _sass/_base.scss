@@ -947,6 +947,42 @@ html.transition *:after {
       }
     }
   }
+
+  /* Kramdown footnotes */
+  sup[id^="fnref:"] {
+    scroll-margin-top: 66px;
+
+    a.footnote {
+      text-decoration: none;
+      padding-left: 0.1rem;
+    }
+  }
+
+  .footnotes {
+    border-top: 1px solid var(--global-divider-color);
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    color: var(--global-text-color-light);
+    font-size: 0.875rem;
+
+    li {
+      scroll-margin-top: 66px;
+
+      p {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    a.reversefootnote {
+      color: var(--global-text-color-light);
+      text-decoration: none;
+      padding-left: 0.25rem;
+
+      &:hover {
+        color: var(--global-theme-color);
+      }
+    }
+  }
 }
 
 progress {

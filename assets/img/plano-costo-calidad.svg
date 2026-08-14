@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 470" width="780" height="470" font-family="-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
-<title id="t">Costo por trial contra pass@3 en los cinco brazos</title>
-<desc id="d">Claude baseline: 1,00 dolares y 91,7 por ciento. Claude caveman: 0,76 dolares y 86,7 por ciento. Claude medium: 0,62 dolares y 86,7 por ciento. Codex baseline: 0,26 dolares y 93,3 por ciento. Codex caveman: 0,25 dolares y 90,0 por ciento. Claude caveman y claude medium alcanzan el mismo pass@3, pero caveman cuesta 23 por ciento mas.</desc>
+<title id="t">Cost per trial vs pass@3 across the five arms</title>
+<desc id="d">Claude baseline: 1.00 dollars and 91.7 percent. Claude caveman: 0.76 dollars and 86.7 percent. Claude medium: 0.62 dollars and 86.7 percent. Codex baseline: 0.26 dollars and 93.3 percent. Codex caveman: 0.25 dollars and 90.0 percent. Claude caveman and claude medium reach the same pass@3, but caveman costs 23 percent more.</desc>
 <style>
   :root { color-scheme: light dark; }
   .bg   { fill: none; }
@@ -54,10 +54,10 @@
 <text class="tick" x="655.8" y="414" text-anchor="middle">$1.00</text>
 <line class="axis" x1="88" y1="68" x2="88" y2="392"/>
 <line class="axis" x1="88" y1="392" x2="736" y2="392"/>
-<text class="axt" x="412" y="442" text-anchor="middle">costo medio por trial (USD)</text>
-<text class="axt" x="26" y="230" text-anchor="middle" transform="rotate(-90 26 230)">pass@3 (K=3, 60 tareas)</text>
+<text class="axt" x="412" y="442" text-anchor="middle">mean cost per trial (USD)</text>
+<text class="axt" x="26" y="230" text-anchor="middle" transform="rotate(-90 26 230)">pass@3 (K=3, 60 tasks)</text>
 <line class="annl" x1="399.3" y1="299.8" x2="494.2" y2="299.8"/>
-<text class="note" x="446.7" y="349.8" text-anchor="middle">mismo pass@3, +23% costo</text>
+<text class="note" x="446.7" y="349.8" text-anchor="middle">same pass@3, +23% cost</text>
 <circle cx="657.8" cy="175.2" r="7.5" class="fblue"/>
 <text class="lbl" x="657.8" y="158.2" text-anchor="middle">claude baseline</text>
 <polygon points="494.2,291.3 502.7,299.8 494.2,308.3 485.7,299.8" fill="none" class="blue" stroke-width="2.25" stroke-linejoin="round"/>
@@ -73,7 +73,7 @@
 <circle cx="212" cy="30" r="6.5" class="forange"/>
 <text class="lgd" x="227" y="34">Codex CLI</text>
 <circle cx="328" cy="30" r="6.5" fill="#86837c"/>
-<text class="lgd" x="343" y="34">sin Caveman</text>
-<polygon points="466,22 475,30 466,38 457,30" fill="none" stroke="#86837c" stroke-width="2" stroke-linejoin="round"/>
-<text class="lgd" x="484" y="34">con Caveman</text>
+<text class="lgd" x="343" y="34">without Caveman</text>
+<polygon points="476,22 485,30 476,38 467,30" fill="none" stroke="#86837c" stroke-width="2" stroke-linejoin="round"/>
+<text class="lgd" x="494" y="34">with Caveman</text>
 </svg>
