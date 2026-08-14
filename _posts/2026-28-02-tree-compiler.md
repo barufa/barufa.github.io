@@ -5,7 +5,7 @@ title: "Training with scikit-learn, Deploying with the Right Runtime"
 excerpt: "Use frameworks to learn. Use lean runtimes to serve."
 date: 2026-02-28
 category:
-tags: machine-learning, mlops, deployment
+tags: [python, machinelearning, performance, mlops]
 ---
 
 ## Compiling scikit-learn Trees to Source Code: Deploying ML with the Right Runtime

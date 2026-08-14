@@ -5,7 +5,7 @@ title: "How to Start a Machine Learning Project Before Starting a Machine Learni
 excerpt: "Ever started a machine learning project, only to realize you were solving the wrong problem? Essential tips to steer your ML projects toward real impact!"
 date: 2024-07-09
 category:
-tags: machine-learning, mlops
+tags: [machinelearning, ai, career, beginners]
 ---
 
 As someone who has made lots of mistakes in ML, I've come to realize the critical thinking required when approaching machine learning projects. Despite the huge potential of ML, many projects often fall short of expectations. Some reports show that only 15% of businesses' ML projects succeed, and just 53% of AI projects make it from prototype to production.

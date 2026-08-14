@@ -5,7 +5,7 @@ title: "From scikit-learn to Faiss: Migrating PCA for Scalable Vector Search"
 excerpt: "Keep sklearn for training and validation, while leveraging Faiss for high-performance production inference."
 date: 2025-07-19
 category:
-tags: machine-learning, mlops, deployment
+tags: [python, machinelearning, performance, vectordatabase]
 ---
 
 ## Why using Faiss

@@ -218,6 +218,14 @@
   <script defer src="{{ '/assets/js/open-panel-analytics-setup.js' | relative_url }}"></script>
   <script async defer src="https://openpanel.dev/op1.js"></script>
 {% endif %}
+{% if site.enable_goatcounter_analytics and jekyll.environment == "production" %}
+  <!-- GoatCounter -->
+  <script
+    async
+    src="https://gc.zgo.at/count.js"
+    data-goatcounter="https://{{ site.goatcounter_analytics }}.goatcounter.com/count"
+  ></script>
+{% endif %}
 
 {% if site.enable_progressbar %}
   <!-- Scrolling Progress Bar -->
