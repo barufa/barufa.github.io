@@ -1,0 +1,17 @@
+/*******************************************************************************
+ * Vendored icon fonts (unmodified upstream copies).
+ *
+ * These still use `@import` and the old global Sass built-ins, so they are
+ * kept behind this wrapper: loading them from `_sass` (a Jekyll load path)
+ * lets `quiet_deps` in _config.yml silence their deprecation warnings without
+ * touching the vendored sources.
+ ******************************************************************************/
+
+// Font awesome location
+$fa-font-path: "../webfonts";
+
+// Tabler icons location
+$ti-font-path: "../fonts";
+
+@import "font-awesome/fontawesome", "font-awesome/brands", "font-awesome/solid", "font-awesome/regular", "tabler-icons/tabler-icons.scss",
+  "tabler-icons/tabler-icons-filled.scss", "tabler-icons/tabler-icons-outline.scss";

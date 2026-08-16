@@ -182,6 +182,7 @@ exclude:
   - purgecss.config.js
   - README.md
   - readme_preview/
+  - requirements.txt
   - vendor
 keep_files:
   - CNAME
@@ -216,6 +217,10 @@ defaults:
 
 sass:
   style: compressed
+  # Silence deprecation warnings coming from the vendored stylesheets
+  # (font-awesome, tabler-icons), which are unmodified upstream copies loaded
+  # through _sass/_vendor.scss. Our own partials use `@use` and stay clean.
+  quiet_deps: true
 
 # -----------------------------------------------------------------------------
 # Jekyll Minifier
