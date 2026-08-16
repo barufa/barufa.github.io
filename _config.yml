@@ -223,7 +223,11 @@ sass:
 
 jekyll-minifier:
   compress_javascript: false # set to false since we are using terser as the js minifier
-  exclude: ["robots.txt", "assets/js/search/*.js"]
+  # feed.xml is excluded because minifying it collapses the newlines between table
+  # tags into spaces, which DEV.to's RSS importer turns into leading indentation on
+  # the Markdown rows it generates, and its renderer then refuses to parse them as
+  # a table. Unminified, the tables cross-post correctly.
+  exclude: ["robots.txt", "assets/js/search/*.js", "feed.xml"]
 
 # -----------------------------------------------------------------------------
 # Terser
